@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Code Access</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1.2rem;
+    }
+    .denied {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="content"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const access = params.get("access");
+    const contentDiv = document.getElementById("content");
+
+    if (access === "1") {
+      contentDiv.innerHTML = `
+        <h1>🎉 Access Granted</h1>
+        <p>Welcome to the secret page. You’ve entered the correct code.</p>
+      `;
+    } else {
+      contentDiv.innerHTML = `
+        <h1 class="denied">⛔ Access Denied</h1>
+        <p>You must unlock this page through the calculator.</p>
+      `;
+    }
+  </script>
+</body>
+</html>
