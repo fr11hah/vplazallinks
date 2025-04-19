@@ -2,49 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Code Access</title>
+  <title>Code Entry</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #111;
       color: #fff;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      flex-direction: column;
-      text-align: center;
+      margin: 0;
     }
+
     h1 {
-      font-size: 3rem;
-      margin-bottom: 10px;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
     }
-    p {
-      font-size: 1.2rem;
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 1rem;
+      width: 300px;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 20px;
     }
-    .denied {
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: #43a047;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #388e3c;
+    }
+
+    .error {
       color: red;
+      margin-top: 15px;
     }
   </style>
 </head>
 <body>
-  <div id="content"></div>
+  <h1>🔒 Enter the Access Code</h1>
+  <input type="text" id="codeInput" placeholder="Enter code here..." />
+  <button onclick="checkCode()">Submit</button>
+  <div class="error" id="errorMsg"></div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const access = params.get("access");
-    const contentDiv = document.getElementById("content");
+    function checkCode() {
+      const input = document.getElementById('codeInput').value.trim();
+      const correctCode = "VplazaIsGoatlinks";
 
-    if (access === "1") {
-      contentDiv.innerHTML = `
-        <h1>🎉 Access Granted</h1>
-        <p>Welcome to the secret page. You’ve entered the correct code.</p>
-      `;
-    } else {
-      contentDiv.innerHTML = `
-        <h1 class="denied">⛔ Access Denied</h1>
-        <p>You must unlock this page through the calculator.</p>
-      `;
+      if (input === correctCode) {
+        // Set sessionStorage flag
+        sessionStorage.setItem("accessGranted", "true");
+        // Redirect to links.html
+        window.location.href = "/links.html";
+      } else {
+        // Show error message
+        document.getElementById('errorMsg').textContent = "⛔ Access Denied: Incorrect Code";
+      }
     }
   </script>
 </body>
