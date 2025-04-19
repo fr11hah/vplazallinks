@@ -62,12 +62,12 @@
       const correctCode = "VplazaIsGoatlinks";
 
       if (input === correctCode) {
-        // Set sessionStorage flag
+        // Set sessionStorage flag to indicate the user has entered the correct code
         sessionStorage.setItem("accessGranted", "true");
         // Redirect to links.html
         window.location.href = "/links.html";
       } else {
-        // Show error message
+        // Show error message if code is incorrect
         document.getElementById('errorMsg').textContent = "⛔ Access Denied: Incorrect Code";
       }
     }
