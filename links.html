@@ -106,9 +106,11 @@
     let currentPage = 1;
     const linksPerPage = 9;
 
+    // Check if user has access granted in sessionStorage
     function checkAccess() {
       const granted = sessionStorage.getItem("accessGranted");
       if (granted !== "true") {
+        // Hide the link grid and pagination, show access denied message
         document.getElementById("linkGrid").style.display = "none";
         document.querySelector(".pagination").style.display = "none";
         document.getElementById("denied").style.display = "block";
@@ -117,6 +119,7 @@
       return true;
     }
 
+    // Show the links grid
     function showLinks(page) {
       const grid = document.getElementById("linkGrid");
       grid.innerHTML = "";
@@ -136,6 +139,7 @@
       document.getElementById("pageIndicator").textContent = `Page ${page}`;
     }
 
+    // Change page for pagination
     function changePage(direction) {
       const maxPage = Math.ceil(websites.length / linksPerPage);
       currentPage += direction;
@@ -144,6 +148,7 @@
       showLinks(currentPage);
     }
 
+    // If access is granted, show the links page
     if (checkAccess()) {
       showLinks(currentPage);
     }
