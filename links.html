@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Links Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 900px;
+      margin: 20px auto;
+    }
+
+    .link-box {
+      padding: 20px;
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .link-box:hover {
+      background-color: #e0f7fa;
+    }
+
+    .pagination {
+      margin-top: 20px;
+    }
+
+    .pagination button {
+      padding: 10px 15px;
+      font-size: 1rem;
+      margin: 0 5px;
+      border: none;
+      border-radius: 4px;
+      background-color: #1976d2;
+      color: white;
+      cursor: pointer;
+    }
+
+    .pagination button:hover {
+      background-color: #1565c0;
+    }
+
+    .denied {
+      color: red;
+      font-size: 1.5rem;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌐 Your Favorite Links</h1>
+  <div id="linkGrid" class="grid"></div>
+
+  <div class="pagination">
+    <button onclick="changePage(-1)">Previous</button>
+    <span id="pageIndicator"></span>
+    <button onclick="changePage(1)">Next</button>
+  </div>
+
+  <div id="denied" class="denied" style="display:none;">
+    ⛔ Access Denied. Please enter the code first.
+  </div>
+
+  <script>
+    const websites = [
+      { name: "Google", url: "https://www.google.com" },
+      { name: "YouTube", url: "https://www.youtube.com" },
+      { name: "Reddit", url: "https://www.reddit.com" },
+      { name: "Wikipedia", url: "https://www.wikipedia.org" },
+      { name: "Twitter", url: "https://twitter.com" },
+      { name: "Instagram", url: "https://www.instagram.com" },
+      { name: "Facebook", url: "https://www.facebook.com" },
+      { name: "Netflix", url: "https://www.netflix.com" },
+      { name: "GitHub", url: "https://github.com" },
+      { name: "Twitch", url: "https://www.twitch.tv" },
+      { name: "Discord", url: "https://discord.com" },
+      { name: "Amazon", url: "https://www.amazon.com" },
+      { name: "Stack Overflow", url: "https://stackoverflow.com" },
+      { name: "Hacker News", url: "https://news.ycombinator.com" },
+      { name: "LinkedIn", url: "https://www.linkedin.com" },
+      { name: "Spotify", url: "https://www.spotify.com" },
+      { name: "OpenAI", url: "https://www.openai.com" },
+      { name: "CNN", url: "https://www.cnn.com" },
+      { name: "BBC", url: "https://www.bbc.com" }
+      // Add more links here as needed
+    ];
+
+    let currentPage = 1;
+    const linksPerPage = 9;
+
+    function checkAccess() {
+      const granted = sessionStorage.getItem("accessGranted");
+      if (granted !== "true") {
+        document.getElementById("linkGrid").style.display = "none";
+        document.querySelector(".pagination").style.display = "none";
+        document.getElementById("denied").style.display = "block";
+        return false;
+      }
+      return true;
+    }
+
+    function showLinks(page) {
+      const grid = document.getElementById("linkGrid");
+      grid.innerHTML = "";
+      const start = (page - 1) * linksPerPage;
+      const end = start + linksPerPage;
+      const pageLinks = websites.slice(start, end);
+
+      pageLinks.forEach(site => {
+        const link = document.createElement("a");
+        link.href = site.url;
+        link.textContent = site.name;
+        link.target = "_blank";
+        link.className = "link-box";
+        grid.appendChild(link);
+      });
+
+      document.getElementById("pageIndicator").textContent = `Page ${page}`;
+    }
+
+    function changePage(direction) {
+      const maxPage = Math.ceil(websites.length / linksPerPage);
+      currentPage += direction;
+      if (currentPage < 1) currentPage = 1;
+      if (currentPage > maxPage) currentPage = maxPage;
+      showLinks(currentPage);
+    }
+
+    if (checkAccess()) {
+      showLinks(currentPage);
+    }
+  </script>
+</body>
+</html>
